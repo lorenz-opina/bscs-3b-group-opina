@@ -1,7 +1,13 @@
-finals project, group-opiña
+finals project, group-opiña BSCS 3B
 
 springboot project
+maven
 
-libraries:
+
+libraries / dependencies:
   javaFX
+  JWT
+  
+
+
 
