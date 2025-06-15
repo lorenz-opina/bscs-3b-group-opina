@@ -8,6 +8,8 @@ public class Bscs3bGroupOpinaApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(Bscs3bGroupOpinaApplication.class, args);
+		System.out.println("Hello World");
+		
 	}
 
 }
