@@ -10,7 +10,7 @@ mySQL
 
 
 libraries / dependencies:
-  javaFX
+  swing
   JWT
   
 
