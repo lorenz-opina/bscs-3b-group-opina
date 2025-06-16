@@ -3,7 +3,6 @@ package com.example.bscs_3b_group_opina.server.Views;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.*;
 
 public class AdminDashboard extends JFrame {
     private JTable table;
