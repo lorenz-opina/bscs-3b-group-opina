@@ -12,7 +12,7 @@ public class Bscs3bGroupOpinaApplication {
 	public static void main(String[] args) {
 
 		new SpringApplicationBuilder(Bscs3bGroupOpinaApplication.class)
-				.headless(false) // 👈 This disables headless mode
+				.headless(false)
 				.run(args);
 
 		System.out.println("Hello World");
