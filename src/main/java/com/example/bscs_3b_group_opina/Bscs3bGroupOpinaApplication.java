@@ -1,7 +1,7 @@
 package com.example.bscs_3b_group_opina;
 
-import com.example.bscs_3b_group_opina.server.View; //server view file
 import com.example.bscs_3b_group_opina.server.Views.AdminDashboard;
+import com.example.bscs_3b_group_opina.server.Views.Login;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,10 +19,10 @@ public class Bscs3bGroupOpinaApplication {
 
 		System.out.println("Hello World");
 
-		View client1 = new View();
+		Login client1 = new Login();
 		AdminDashboard admin = new AdminDashboard();
 
-		admin.show();
+		client1.show();
 
 	}
 

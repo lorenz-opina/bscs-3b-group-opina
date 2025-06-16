@@ -1,17 +1,17 @@
-package com.example.bscs_3b_group_opina.server;
+package com.example.bscs_3b_group_opina.server.Views;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class View {
+public class Login {
     private JFrame frame;
     private JTextField userField;
     private JPasswordField passField;
     private JButton loginButton;
 
-    public View() {
+    public Login() {
         frame = new JFrame("Client Login");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(300, 150);
