@@ -22,8 +22,6 @@ public class Bscs3bGroupOpinaApplication {
 		Login client1 = new Login();
 		AdminDashboard admin = new AdminDashboard();
 
-		client1.show();
-
 	}
 
 }
