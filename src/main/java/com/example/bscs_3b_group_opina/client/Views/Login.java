@@ -1,4 +1,4 @@
-package com.example.bscs_3b_group_opina.server.Views;
+package com.example.bscs_3b_group_opina.client.Views;
 
 import javax.swing.*;
 import java.awt.*;

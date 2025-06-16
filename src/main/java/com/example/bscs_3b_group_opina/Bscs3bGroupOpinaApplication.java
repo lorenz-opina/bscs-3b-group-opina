@@ -1,6 +1,7 @@
 package com.example.bscs_3b_group_opina;
 
 import com.example.bscs_3b_group_opina.server.Controller.Server;
+import com.example.bscs_3b_group_opina.client.Views.Login;
 
 import java.io.IOException;
 
@@ -18,8 +19,8 @@ public class Bscs3bGroupOpinaApplication {
 
 		System.out.println("Hello World");
 
-		// Login client1 = new Login();
-		// AdminDashboard admin = new AdminDashboard();
+		Login login = new Login();
+		login.show();
 
 		Server s1 = new Server(3000);
 		try {
