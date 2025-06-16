@@ -1,37 +1,65 @@
 package com.example.bscs_3b_group_opina.server;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
-import javafx.scene.layout.*;
-import javafx.stage.Stage;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class View extends Application {
-    @Override
-    public void start(Stage primaryStage) {
-        Label userLabel = new Label("Username:");
-        TextField userField = new TextField();
+public class View {
+    private JFrame frame;
+    private JTextField userField;
+    private JPasswordField passField;
+    private JButton loginButton;
 
-        Label passLabel = new Label("Password:");
-        PasswordField passField = new PasswordField();
+    public View() {
+        frame = new JFrame("Client Login");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(300, 150);
+        frame.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
 
-        Button loginButton = new Button("Login");
+        JLabel userLabel = new JLabel("Username:");
+        userField = new JTextField(15);
 
-        GridPane grid = new GridPane();
-        grid.setVgap(10);
-        grid.setHgap(10);
-        grid.add(userLabel, 0, 0);
-        grid.add(userField, 1, 0);
-        grid.add(passLabel, 0, 1);
-        grid.add(passField, 1, 1);
-        grid.add(loginButton, 1, 2);
+        JLabel passLabel = new JLabel("Password:");
+        passField = new JPasswordField(15);
 
-        Scene scene = new Scene(grid, 300, 150);
-        primaryStage.setScene(scene);
-        primaryStage.setTitle("Client Login");
-        primaryStage.show();
+        loginButton = new JButton("Login");
 
-        loginButton.setOnAction(e -> {
-            String user = userField.getText();
-            String pass = passField.getText();
-            System.out.println("Attempting login
+        gbc.insets = new Insets(5, 5, 5, 5);
+
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(userLabel, gbc);
+        gbc.gridx = 1;
+        frame.add(userField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        frame.add(passLabel, gbc);
+        gbc.gridx = 1;
+        frame.add(passField, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        frame.add(loginButton, gbc);
+
+        frame.setLocationRelativeTo(null);
+    }
+
+    public void show() {
+        frame.setVisible(true);
+    }
+
+    public void onLogin(ActionListener listener) {
+        loginButton.addActionListener(listener);
+    }
+
+    public String getUsername() {
+        return userField.getText();
+    }
+
+    public String getPassword() {
+        return new String(passField.getPassword());
+    }
+}
