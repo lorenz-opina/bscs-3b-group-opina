@@ -3,7 +3,9 @@ package com.example.bscs_3b_group_opina.server.Views;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import org.springframework.stereotype.Component;
 
+@Component // Register as a Spring Bean
 public class AdminDashboard extends JFrame {
     private JTable table;
     private DefaultTableModel model;
@@ -67,9 +69,5 @@ public class AdminDashboard extends JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Please select a candidate to delete.");
         }
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new AdminDashboard().setVisible(true));
     }
 }
