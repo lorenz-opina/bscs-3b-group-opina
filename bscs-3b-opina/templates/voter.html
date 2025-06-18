@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Vote - UASG e-Voting</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: rgb(255, 255, 255);
+        }
+
+        .card-header {
+            background-color: rgb(255, 255, 255);
+            color: black;
+        }
+
+        .candidate-card {
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .candidate-card:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .form-check-input[type=radio] {
+            transform: scale(1.2);
+        }
+
+        .form-section {
+            margin-bottom: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container py-5">
+        <div class="text-center mb-5">
+            <img src="assets/uasg_logo.png" style="width: 100px;" class="rounded-circle mb-3">
+            <h4>UASG e-Voting System</h4>
+            <p class="text-muted mb-1"><?php echo $row['election_name']; ?></p>
+            <small class="text-muted"><?php echo $row['election_date']; ?></small>
+        </div>
+
+        <form method="post" id="voteForm">
+            <!-- Positions -->
+            <div class="form-section card">
+                <div class="card-header">President</div>
+                <div class="card-body"><?php get_candidates($conn, "president"); ?></div>
+            </div>
+
+            <div class="form-section card">
+                <div class="card-header">Vice President</div>
+                <div class="card-body"><?php get_candidates($conn, "vice president"); ?></div>
+            </div>
+
+            <div class="form-section card">
+                <div class="card-header">Senator</div>
+                <div class="card-body"><?php get_candidates($conn, "senator"); ?></div>
+            </div>
+
+            <div class="form-section card">
+                <div class="card-header">Representative</div>
+                <div class="card-body"><?php get_candidates($conn, "representative"); ?></div>
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="button" class="btn btn-primary px-5" onclick="previewSelection()">Review
+                    Selection</button>
+
+            </div>
+
+            <!-- Confirmation Section -->
+            <div id="confirmationSection" class="mt-5" style="display: none;">
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white">Confirm Your Vote</div>
+                    <div class="card-body">
+                        <ul class="list-group mb-3">
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>President:</strong> <span id="summaryPresident">-</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Vice President:</strong> <span id="summaryVP">-</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Senator:</strong> <span id="summarySec">-</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Representative:</strong> <span id="summaryRep">-</span>
+                            </li>
+                        </ul>
+                        <div class="text-center d-flex justify-content-center gap-3">
+                            <button type="submit" name="final_submit" class="btn btn-success px-4">Submit Final
+                                Vote</button>
+                            <button type="button" class="btn btn-outline-secondary px-4"
+                                onclick="cancelReview()">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </form>
+    </div>
+
+    <!-- Scripts -->
+    <script>
+        function previewSelection() {
+            const form = document.getElementById('voteForm');
+            const getSelected = (name) => {
+                const input = form.querySelector(`input[name="${name}"]:checked`);
+                return input ? input.dataset.name : 'Not selected';
+            };
+
+            document.getElementById('summaryPresident').textContent = getSelected('president');
+            document.getElementById('summaryVP').textContent = getSelected('vice president');
+            document.getElementById('summarySec').textContent = getSelected('senator');
+            document.getElementById('summaryRep').textContent = getSelected('representative');
+
+            document.getElementById('confirmationSection').style.display = 'block';
+            window.scrollTo({ top: document.getElementById('confirmationSection').offsetTop, behavior: 'smooth' });
+        }
+
+        function cancelReview() {
+            document.getElementById('confirmationSection').style.display = 'none';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>

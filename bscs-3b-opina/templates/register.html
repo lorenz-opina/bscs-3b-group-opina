@@ -58,17 +58,14 @@
 </head>
 
 <body>
-    {% if message %}
-  <p>{{ message }}</p>
-{% endif %}
 
     <div>
-        <h2 class="evoting_title">UASG e-Voting System</h2>
+        <h2 class="evoting_title">e-Voting System</h2>
     </div>
     <div class="login-container">
-        <h2>Login</h2>
+        <h2>Register</h2>
 
-        <form action="/auth" method="post"> 
+        <form action="/register_new" method="post"> 
             <div class="mb-4">
                 <label for="email" class="form-label">Email address</label>
                 <input type="email" class="form-control" name="username" placeholder="Enter email">
@@ -78,11 +75,10 @@
                 <input type="password" class="form-control" name="password" placeholder="Enter password">
             </div>
             <div class="d-grid">
-                <button type="submit" class="btn btn-primary btn-custom">Login</button>
+                <button type="submit" class="btn btn-primary btn-custom">Confirm</button>
+
+
             </div>
-
-            <center> <a href="/register"> Register </a> </center>
-
         </form>
     </div>
 

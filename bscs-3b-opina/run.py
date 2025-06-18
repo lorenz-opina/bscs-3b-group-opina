@@ -1,11 +1,19 @@
-from flask import Flask, render_template
+from flask import Flask, jsonify, render_template
 from server.controller.login_controller import hello
-from extensions import db
+from server.controller.register_controller import register_new
+from extensions import db, jwt
+
+from flask_jwt_extended import JWTManager, get_jwt, get_jwt_identity, jwt_required
 
 def create_app():
     app = Flask(__name__)
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    
+    app.config["JWT_SECRET_KEY"] = "super-secret-key"
+
+    jwt.init_app(app)
+
 
     db.init_app(app)
 
@@ -19,6 +27,26 @@ def create_app():
     @app.route("/auth", methods=["POST"])
     def auth():
         return hello()
+    
+    @app.route("/register")
+    def register_user():
+        return render_template("register.html")
+    
+    @app.route("/register_new", methods=["POST"])
+    def submit_new():
+        return register_new()
+    
+    @app.route("/vote")
+    def voter():
+        return render_template("voter.html")
+    
+    @app.route("/dashboard")
+    @jwt_required()
+    def dashboard():
+        identity = get_jwt_identity()
+        if identity["user_type"] != "admin":
+            return jsonify(msg="Access denied"), 403
+        return render_template("dashboard.html")
 
     return app
 
