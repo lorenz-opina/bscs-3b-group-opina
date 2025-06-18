@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>UASG e-Voting</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="static/styles.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+
+<body>
+    <div class="d-flex" id="wrapper">
+
+        <!-- Sidebar-->
+        <div class="border-end" id="sidebar-wrapper" style="background-color: rgb(164, 55, 55);">
+
+            <div class="sidebar-heading">
+                <center><img src="assets/uasg_logo.png" style="width: 100px; padding-block: 20px; border-radius: 50%;">
+                </center>
+            </div>
+
+            <div class="list-group list-group-flush">
+                <a class="nav-link list-group-item list-group-item-action list-group-item-light p-3"
+                    href="admin_dashboard.php">📋 Dashboard</a>
+
+                <a class="nav-link dropdown-toggle list-group-item list-group-item-action list-group-item-light p-3"
+                    data-bs-toggle="collapse" href="#candidatesMenu" role="button" aria-expanded="false"
+                    aria-controls="candidatesMenu">👤 Candidate</a>
+                <div class="collapse" id="candidatesMenu">
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link" href="admin_add_candidate.php">➕
+                        Add Candidate</a>
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link"
+                        href="admin_view_candidate.php">👁️ View Candidates</a>
+                </div>
+
+                <a class="nav-link dropdown-toggle list-group-item list-group-item-action list-group-item-light p-3"
+                    data-bs-toggle="collapse" href="#votersMenu" role="button" aria-expanded="false"
+                    aria-controls="votersMenu">🧑‍💼 Voter</a>
+                <div class="collapse" id="votersMenu">
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link" href="admin_add_voter.php">➕ Add
+                        Voter</a>
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link" href="admin_view_voter.php">👁️
+                        View Voter</a>
+                </div>
+
+                <a class="nav-link dropdown-toggle list-group-item list-group-item-action list-group-item-light p-3"
+                    data-bs-toggle="collapse" href="#votingPeriodMenu" role="button" aria-expanded="false"
+                    aria-controls="votingPeriodMenu">🗳️ Election</a>
+                <div class="collapse" id="votingPeriodMenu">
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link" href="admin_set_session.php">➕
+                        Create New</a>
+                    <a class="list-group-item list-group-item-action p-3 dropdown-link"
+                        href="admin_view_session.php">👁️ View Sessions</a>
+                </div>
+
+                <a class="list-group-item list-group-item-action list-group-item-light p-3" href="admin_result.php">📊
+                    Results</a>
+            </div>
+
+        </div>
+
+        <!-- Page content wrapper-->
+        <div id="page-content-wrapper">
+
+            <!-- Top navigation-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+                <div class="container-fluid">
+                    <button class="btn btn-primary" id="sidebarToggle"> </button>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation"><span
+                            class="navbar-toggler-icon"></span></button>
+
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account</a>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="admin_help_support.php">Help Support</a>
+                                    <div class="dropdown-divider"></div>
+
+                                    <form method="post">
+                                        <input type="submit" name="hidden_submit" style="display: none;">
+                                        <a class="dropdown-item" href="index.php">Log Out</a>
+                                    </form>
+
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+
+            <!-- Page content-->
+            <div class="main-content">
+                <div class="container mt-5">
+                        <h2 class="text-center">UASG Election 2025</h2>
+                        <div class="row justify-content-center">
+                            <div class="col-md-9">
+                                <canvas id="myBarGraph"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+
+                        <script>
+                            const ctx = document.getElementById('myBarGraph').getContext('2d');
+                            const myBarGraph = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: ['CTE', 'CIT', 'CMS', 'CAS', 'CBA','CCJE', 'CCS','CEA', 'LHS'],
+                                    datasets: [{
+                                        label: 'Voters per Colleges',
+                                            
+                                        data: 
+                                        [<?php echo $CTE;?>,
+                                         <?php echo $CIT;?>, 
+                                         <?php echo $CMS;?>, 
+                                         <?php echo $CAS;?>, 
+                                         <?php echo $CBA;?>, 
+                                         <?php echo $CCJE;?>, 
+                                         <?php echo $CCS;?>, 
+                                         <?php echo $CEA;?>, 
+                                         <?php echo $LHS;?>],
+
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.6)',
+                                            'rgba(54, 162, 235, 0.6)',
+                                            'rgba(255, 206, 86, 0.6)',
+                                            'rgba(75, 192, 192, 0.6)',
+                                            'rgba(153, 102, 255, 0.6)',
+                                            'rgba(255, 99, 132, 0.6)',
+                                            'rgba(255, 99, 132, 0.6)',
+                                            'rgba(255, 99, 132, 0.6)',
+                                            'rgba(54, 162, 235, 0.6)',
+
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(255, 99, 132, 1)',
+                                        ],
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            display: true,
+                                            position: 'top'
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: '',
+                                            padding: {
+                                                top: 20, // Adjust this value for more or less space
+                                                bottom: 10 // Optional, for space between the title and other elements
+                                            },
+                                            font: {
+                                                size: 18
+                                            }
+                                        },
+                                        tooltip: {
+                                            enabled: true
+                                        }
+                                    },
+                                    scales: {
+                                        x: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Colleges',
+                                                font: {
+                                                    size: 14
+                                                }
+                                            }
+                                        },
+                                        y: {
+                                            beginAtZero: true,
+                                            title: {
+                                                display: true,
+                                                text: 'Number of Voters',
+                                                font: {
+                                                    size: 14
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+                        </script>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    <!--<footer class="sticky-footer bg-white">
+            <div class="container my-auto">
+                <div class="copyright text-center my-auto">
+                    <span> Copyright &copy; UASG e-Voting System 2024 </span>
+                </div>
+            </div>
+
+        </footer> -->
+
+    <style>
+        /* Sidebar Button Styling */
+        .list-group-item,
+        .dropdown-link {
+            background-color: #a43737 !important;
+            color: white !important;
+            border: none;
+            margin: 10px 20px 0 0;
+            border-radius: 10px !important;
+            /* FULLY ROUNDED */
+            box-shadow: 1px 2px 1px rgba(0, 0, 0, 0.2);
+            font-weight: 500;
+            padding: 12px 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: calc(100% - 20px);
+            /* Full width minus side padding */
+            margin: 20px auto 0 auto;
+            /* Centered horizontally */
+        }
+
+        /* Hover Effect */
+        .list-group-item:hover,
+        .dropdown-link:hover {
+            background-color: #c74747 !important;
+            color: white !important;
+        }
+
+        /* Sidebar Section Header */
+        .sidebar-heading {
+            background-color: #a43737;
+            color: aliceblue;
+        }
+
+        /* Logo inside the sidebar heading */
+        .sidebar-heading img {
+            border-radius: 50%;
+        }
+
+        /* Toggle Button */
+        #sidebarToggle {
+            width: 40px;
+            height: 40px;
+            background-color: rgb(212, 75, 75);
+            background-image: url(assets/ham.png);
+            background-repeat: no-repeat;
+            background-size: 25px;
+            background-position: center;
+            border-radius: 0%;
+        }
+
+        /* Dropdown submenu spacing */
+        .collapse .dropdown-link {
+            margin: 8px 10px;
+            /* more spacing inside submenu */
+            font-size: 0.95rem;
+        }
+    </style>
+
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+
+</html>

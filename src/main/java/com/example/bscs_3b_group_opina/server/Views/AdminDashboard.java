@@ -1,73 +1,149 @@
 package com.example.bscs_3b_group_opina.server.Views;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import org.springframework.stereotype.Component;
+import javafx.application.Application;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.*;
+import javafx.stage.Stage;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-@Component // Register as a Spring Bean
-public class AdminDashboard extends JFrame {
-    private JTable table;
-    private DefaultTableModel model;
+public class AdminDashboard extends Application {
 
-    public AdminDashboard() {
-        setTitle("Admin Dashboard");
-        setSize(600, 400);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
+    private TableView<Candidate> table;
+    private ObservableList<Candidate> candidates;
 
-        model = new DefaultTableModel(new Object[] { "ID", "Name", "Party" }, 0);
-        table = new JTable(model);
-        JScrollPane scrollPane = new JScrollPane(table);
+    public static void main(String[] args) {
+        launch(args); // Entry point for JavaFX
+    }
 
-        JButton addBtn = new JButton("Add");
-        JButton editBtn = new JButton("Edit");
-        JButton deleteBtn = new JButton("Delete");
+    @Override
+    public void start(Stage primaryStage) {
+        primaryStage.setTitle("Admin Dashboard");
 
-        addBtn.addActionListener(e -> addCandidate());
-        editBtn.addActionListener(e -> editCandidate());
-        deleteBtn.addActionListener(e -> deleteCandidate());
+        candidates = FXCollections.observableArrayList();
 
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.add(addBtn);
-        buttonPanel.add(editBtn);
-        buttonPanel.add(deleteBtn);
+        table = new TableView<>();
+        TableColumn<Candidate, String> idCol = new TableColumn<>("ID");
+        idCol.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        add(scrollPane, BorderLayout.CENTER);
-        add(buttonPanel, BorderLayout.SOUTH);
+        TableColumn<Candidate, String> nameCol = new TableColumn<>("Name");
+        nameCol.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Candidate, String> partyCol = new TableColumn<>("Party");
+        partyCol.setCellValueFactory(new PropertyValueFactory<>("party"));
+
+        table.getColumns().addAll(idCol, nameCol, partyCol);
+        table.setItems(candidates);
+
+        Button addBtn = new Button("Add");
+        addBtn.setOnAction(e -> addCandidate());
+
+        Button editBtn = new Button("Edit");
+        editBtn.setOnAction(e -> editCandidate());
+
+        Button deleteBtn = new Button("Delete");
+        deleteBtn.setOnAction(e -> deleteCandidate());
+
+        HBox buttonBox = new HBox(10, addBtn, editBtn, deleteBtn);
+        VBox layout = new VBox(10, table, buttonBox);
+        layout.setPadding(new javafx.geometry.Insets(10));
+
+        primaryStage.setScene(new Scene(layout, 600, 400));
+        primaryStage.show();
     }
 
     private void addCandidate() {
-        String id = JOptionPane.showInputDialog(this, "Enter ID:");
-        String name = JOptionPane.showInputDialog(this, "Enter Name:");
-        String party = JOptionPane.showInputDialog(this, "Enter Party:");
+        TextInputDialog idDialog = new TextInputDialog();
+        idDialog.setHeaderText("Enter ID:");
+        String id = idDialog.showAndWait().orElse(null);
+
+        TextInputDialog nameDialog = new TextInputDialog();
+        nameDialog.setHeaderText("Enter Name:");
+        String name = nameDialog.showAndWait().orElse(null);
+
+        TextInputDialog partyDialog = new TextInputDialog();
+        partyDialog.setHeaderText("Enter Party:");
+        String party = partyDialog.showAndWait().orElse(null);
+
         if (id != null && name != null && party != null) {
-            model.addRow(new Object[] { id, name, party });
+            candidates.add(new Candidate(id, name, party));
         }
     }
 
     private void editCandidate() {
-        int row = table.getSelectedRow();
-        if (row != -1) {
-            String id = JOptionPane.showInputDialog(this, "Edit ID:", model.getValueAt(row, 0));
-            String name = JOptionPane.showInputDialog(this, "Edit Name:", model.getValueAt(row, 1));
-            String party = JOptionPane.showInputDialog(this, "Edit Party:", model.getValueAt(row, 2));
-            if (id != null && name != null && party != null) {
-                model.setValueAt(id, row, 0);
-                model.setValueAt(name, row, 1);
-                model.setValueAt(party, row, 2);
-            }
+        Candidate selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            TextInputDialog idDialog = new TextInputDialog(selected.getId());
+            idDialog.setHeaderText("Edit ID:");
+            selected.setId(idDialog.showAndWait().orElse(selected.getId()));
+
+            TextInputDialog nameDialog = new TextInputDialog(selected.getName());
+            nameDialog.setHeaderText("Edit Name:");
+            selected.setName(nameDialog.showAndWait().orElse(selected.getName()));
+
+            TextInputDialog partyDialog = new TextInputDialog(selected.getParty());
+            partyDialog.setHeaderText("Edit Party:");
+            selected.setParty(partyDialog.showAndWait().orElse(selected.getParty()));
+
+            table.refresh();
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a candidate to edit.");
+            showAlert("Please select a candidate to edit.");
         }
     }
 
     private void deleteCandidate() {
-        int row = table.getSelectedRow();
-        if (row != -1) {
-            model.removeRow(row);
+        Candidate selected = table.getSelectionModel().getSelectedItem();
+        if (selected != null) {
+            candidates.remove(selected);
         } else {
-            JOptionPane.showMessageDialog(this, "Please select a candidate to delete.");
+            showAlert("Please select a candidate to delete.");
         }
+    }
+
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    public static class Candidate {
+        private String id, name, party;
+
+        public Candidate(String id, String name, String party) {
+            this.id = id;
+            this.name = name;
+            this.party = party;
+        }
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getParty() {
+            return party;
+        }
+
+        public void setParty(String party) {
+            this.party = party;
+        }
+    }
+
+    public Object setVisible(boolean b) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setVisible'");
     }
 }
