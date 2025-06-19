@@ -29,6 +29,7 @@ def create_app():
     @app.route("/login", methods=["POST"])
     def auth():
         return hello()
+
     
     @app.route("/register")
     def register_user():
@@ -38,7 +39,9 @@ def create_app():
     def submit_new():
         return register_new()
     
+    
     @app.route("/vote")
+    @jwt_required()
     def voter():
         return render_template("voter.html")
     
