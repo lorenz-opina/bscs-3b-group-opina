@@ -15,7 +15,7 @@ def register_new():
     hashed_password = generate_password_hash(new_password)
 
     # Create and save the user
-    new_user = User(username=new_username, password=hashed_password, user_type="voter")
+    new_user = User(username=new_username, password=hashed_password, user_type="admin")
     db.session.add(new_user)
     db.session.commit()
 
