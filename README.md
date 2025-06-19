@@ -2,6 +2,7 @@ Lorenz Jose Andrei Opiña | John Amiel Niebre | Darwin Miranda
 
 BACKEND: Flask
 DATABASE: flask-sqlalchemy
+FRONTEND: html jinja2 - comes with flask
 
 ============
 Python Setup
