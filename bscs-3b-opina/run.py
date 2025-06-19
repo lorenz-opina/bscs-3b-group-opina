@@ -10,12 +10,14 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///site.db"
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     
+    app.config["JWT_TOKEN_LOCATION"] = ["cookies"]
+    app.config["JWT_COOKIE_SECURE"] = False  # Set to True in production with HTTPS   
     app.config["JWT_SECRET_KEY"] = "super-secret-key"
 
+
     jwt.init_app(app)
-
-
     db.init_app(app)
+    
 
     with app.app_context():
         db.create_all()
@@ -24,7 +26,7 @@ def create_app():
     def home():
         return render_template("login.html")
 
-    @app.route("/auth", methods=["POST"])
+    @app.route("/login", methods=["POST"])
     def auth():
         return hello()
     
@@ -42,12 +44,16 @@ def create_app():
     
     @app.route("/dashboard")
     @jwt_required()
-    def dashboard():
-        identity = get_jwt_identity()
-        if identity["user_type"] != "admin":
+    def mein_got():
+        claims = get_jwt()
+        if claims.get("user_type") != "admin":
             return jsonify(msg="Access denied"), 403
         return render_template("dashboard.html")
-
+    
+    @app.route("/done", methods=["POST", "GET"])
+    def voter_done():
+        return render_template("voter_done.html")
+    
     return app
 
 app = create_app()

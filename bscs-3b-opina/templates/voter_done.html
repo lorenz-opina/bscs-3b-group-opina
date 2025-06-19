@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vote Recorded</title>
+    <link href="static/styles.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #f5f5f5;
+            font-family: Arial, sans-serif;
+        }
+
+        .centered-box {
+            max-width: 500px;
+            margin: 100px auto;
+            padding: 40px;
+            background-color: white;
+            border-radius: 16px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            margin-bottom: 30px;
+            color: #333;
+        }
+
+        .btn-primary {
+            background-color: rgb(164, 55, 55);
+            border: none;
+            color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: rgb(140, 40, 40);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="centered-box">
+        <h2>Your vote has been recorded!</h2>
+        <form action="/login" method="post">
+            <button name="done" type="submit" class="btn btn-primary">Done</button>
+        </form>
+    </div>
+</body>
+
+</html>
