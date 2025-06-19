@@ -1,6 +1,6 @@
 from flask import request, render_template
 from extensions import db
-from server.model.users_db import User
+from stuff.model.users_db import User
 from werkzeug.security import check_password_hash, generate_password_hash
  
 def register_new():

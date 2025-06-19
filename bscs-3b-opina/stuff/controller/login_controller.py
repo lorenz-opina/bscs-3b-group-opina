@@ -1,6 +1,6 @@
 from flask import request, render_template, jsonify
 from extensions import db, jwt
-from server.model.users_db import User
+from stuff.model.users_db import User
 from werkzeug.security import check_password_hash
 from flask import make_response, redirect, url_for
 from flask_jwt_extended import set_access_cookies

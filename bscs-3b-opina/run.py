@@ -1,6 +1,6 @@
 from flask import Flask, jsonify, render_template
-from server.controller.login_controller import hello
-from server.controller.register_controller import register_new
+from stuff.controller.login_controller import hello
+from stuff.controller.register_controller import register_new
 from extensions import db, jwt
 
 from flask_jwt_extended import JWTManager, get_jwt, get_jwt_identity, jwt_required
