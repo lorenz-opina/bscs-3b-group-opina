@@ -1,4 +1,4 @@
-from extensions import db  # assuming you have a shared db instance
+from extensions import db 
 
 class User(db.Model):
     __tablename__ = 'users'
